@@ -17,6 +17,8 @@ shutil.copy(f'{G}/assets/brand/title.webp', f'{OUT}/img/titre.webp')
 shutil.copy(f'{G}/assets/brand/emblem.webp', f'{OUT}/img/embleme.webp')
 shutil.copy(f'{G}/icons/favicon.png', f'{OUT}/favicon.png')
 shutil.copy(f'{G}/icons/apple-touch-icon.png', f'{OUT}/apple-touch-icon.png')
+_p = Image.open(f'{G}/store/ui/partage-source.jpg').convert('RGB'); _h = round(_p.width * 630 / 1200); _y = (_p.height - _h) // 2
+_p.crop((0, _y, _p.width, _y + _h)).resize((1200, 630), Image.LANCZOS).save(f'{OUT}/img/partage.jpg', quality=84)  # image de partage (Gemini)
 Image.open(f'{G}/store/apple/icone-1024.png').convert('RGB').resize((512, 512), Image.LANCZOS).save(f'{OUT}/img/icone.webp', quality=86)
 SHOTS = [('08-accueil', 'L’Accueil et tes objectifs du jour'), ('02-ouverture', 'L’ouverture d’un booster'), ('03-combat', 'Un combat contre un gardien'), ('05-collection', 'Ta collection de 500 créatures'), ('04-equipe', 'Ton équipe'), ('06-sceaux', 'Les Duels des Sceaux'), ('07-bestiaire', 'Le Bestiaire'), ('01-carte', 'Une carte en détail')]
 for k, _ in SHOTS:
@@ -85,7 +87,11 @@ def page(fname, title, desc, body, text=True):
 <meta name="theme-color" content="#0B0A10">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
-<meta property="og:image" content="https://abyssal-game.fr/img/icone.webp">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://abyssal-game.fr/img/partage.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="fonts.css">
