@@ -20,48 +20,119 @@ shutil.copy(f'{G}/icons/apple-touch-icon.png', f'{OUT}/apple-touch-icon.png')
 _p = Image.open(f'{G}/store/ui/partage-source.jpg').convert('RGB'); _h = round(_p.width * 630 / 1200); _y = (_p.height - _h) // 2
 _p.crop((0, _y, _p.width, _y + _h)).resize((1200, 630), Image.LANCZOS).save(f'{OUT}/img/partage.jpg', quality=84)  # image de partage (Gemini)
 Image.open(f'{G}/store/apple/icone-1024.png').convert('RGB').resize((512, 512), Image.LANCZOS).save(f'{OUT}/img/icone.webp', quality=86)
-SHOTS = [('08-accueil', 'L’Accueil et tes objectifs du jour'), ('02-ouverture', 'L’ouverture d’un booster'), ('03-combat', 'Un combat contre un gardien'), ('05-collection', 'Ta collection de 500 créatures'), ('04-equipe', 'Ton équipe'), ('06-sceaux', 'Les Duels des Sceaux'), ('07-bestiaire', 'Le Bestiaire'), ('01-carte', 'Une carte en détail')]
+SHOTS = [('accueil', 'L’Accueil et tes objectifs du jour'), ('ouverture', 'L’ouverture d’un booster'), ('combat', 'Un combat contre un gardien'), ('collection', 'Ta collection de 500 créatures'), ('equipe', 'Ton équipe'), ('sceaux', 'Les Duels des Sceaux'), ('bestiaire', 'Le Bestiaire'), ('carte', 'Une carte en détail')]
 for k, _ in SHOTS:
-    im = Image.open(f'{G}/store/apple/{k}.png').convert('RGB'); w = 540
+    im = Image.open(f'{G}/store/raw/{k}.png').convert('RGB'); w = 540
     im.resize((w, round(im.height * w / im.width)), Image.LANCZOS).save(f'{OUT}/img/shots/{k}.webp', quality=78)
-shot_w, shot_h = Image.open(f'{OUT}/img/shots/08-accueil.webp').size
+shot_w, shot_h = Image.open(f'{OUT}/img/shots/accueil.webp').size
+# grande image d'ouverture (Gemini : cartes en éventail devant l'œil de l'Abysse)
+Image.open(f'{G}/store/ui/partage-source.jpg').convert('RGB').save(f'{OUT}/img/hero.webp', quality=80)
+# une créature par royaume, gardiens, jeux
+CREA = [('infernal', 'Infernal', 'INF-051', 'Lilith'), ('abyssal', 'Abyssal', 'ABY-045', 'Léviathan'), ('celeste', 'Céleste', 'CEL-044', 'L’Ange aux Mille Yeux'),
+        ('sauvage', 'Sauvage', 'SAU-049', 'Fenrir'), ('necrotique', 'Nécrotique', 'NEC-042', 'Le Roi Sans Tombe'), ('primordial', 'Primordial', 'PRI-048', 'Tiamat'),
+        ('artificiel', 'Artificiel', 'ART-041', 'Le Dragon d’Horlogerie')]
+os.makedirs(f'{OUT}/img/cartes'); os.makedirs(f'{OUT}/img/royaumes'); os.makedirs(f'{OUT}/img/gardiens'); os.makedirs(f'{OUT}/img/jeux')
+for f, _, cid, _ in CREA:
+    Image.open(f'{G}/assets/art/{cid}.webp').convert('RGB').resize((360, 504), Image.LANCZOS).save(f'{OUT}/img/cartes/{cid}.webp', quality=80)
+    Image.open(f'{G}/assets/factions/{f}.webp').convert('RGBA').resize((96, 96), Image.LANCZOS).save(f'{OUT}/img/royaumes/{f}.webp', quality=86)
+BOSSES = [('roi', 'Le Roi sans Visage', 'étage 5'), ('devoreur', 'Le Dévoreur', 'étage 10'), ('chasseur', 'Le Chasseur sans Ombre', 'étage 70'), ('abysse', 'L’Abysse', 'étage 100')]
+for k, _, _ in BOSSES:
+    im = Image.open(f'{G}/assets/bosses/{k}.webp').convert('RGBA'); h = 420
+    im.resize((round(im.width * h / im.height), h), Image.LANCZOS).save(f'{OUT}/img/gardiens/{k}.webp', quality=82)
+GAMES = [('sceaux', 'Les Duels des Sceaux', 'Pose tes cartes sur le plateau et retourne celles de l’adversaire.'),
+         ('pacte', 'Le Pacte', 'Tire des cartes et additionne… sans jamais tirer deux fois le même royaume.'),
+         ('cryptes', 'Les Cryptes', 'Un duel de mémoire : chaque paire trouvée réveille le pouvoir de son royaume.'),
+         ('encheres', 'Les Enchères de Mammon', 'Des offrandes secrètes, des créatures à gagner, des malédictions à éviter.')]
+for k, _, _ in GAMES + [('enligne', '', ''), ('amis', '', ''), ('descente', '', ''), ('trial', '', '')]:
+    shutil.copy(f'{G}/assets/ui/bn-{k}.webp', f'{OUT}/img/jeux/{k}.webp')
+for k in ('standard2', 'abysse2'):
+    im = Image.open(f'{G}/assets/packs/{k}.webp').convert('RGBA'); h = 420
+    im.resize((round(im.width * h / im.height), h), Image.LANCZOS).save(f'{OUT}/img/{k}.webp', quality=84)
 
-STYLE = '''
-:root { --bg: #0B0A10; --panel: #15131C; --panel2: #1C1826; --ink: #ECE4D2; --muted: #B3A890; --gold: #E2B860; --line: rgba(226, 184, 96, .28); --violet: #9B6BFF; color-scheme: dark; }
+STYLE = """
+:root { --bg: #08070C; --panel: #13111A; --panel2: #1B1724; --ink: #EEE6D3; --muted: #B5AA92; --gold: #E5BC62; --gold2: #F6DA98; --line: rgba(229, 188, 98, .26); --violet: #9B6BFF; color-scheme: dark; }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-body { margin: 0; background: radial-gradient(ellipse at top, #1E1830 0%, var(--bg) 62%) fixed, var(--bg); color: var(--ink); font: 400 1.04rem/1.6 'Alegreya Sans', system-ui, sans-serif; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1.05rem/1.62 'Alegreya Sans', system-ui, sans-serif; }
+html, body, main, .sec, .hero { overflow-x: clip; }
 a { color: var(--gold); }
 img { max-width: 100%; height: auto; display: block; }
-.wrap { max-width: 64rem; margin: 0 auto; padding: 0 max(16px, env(safe-area-inset-left)); }
-.top { position: sticky; top: 0; z-index: 10; background: rgba(11, 10, 16, .88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top); }
-.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--gold); font: 700 1.05rem/1 'Cinzel', Georgia, serif; letter-spacing: .08em; }
-.brand img { width: 34px; height: 34px; border-radius: 50%; }
-nav { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
-nav a { text-decoration: none; color: var(--ink); padding: 10px 10px; border-radius: 10px; font-size: .95rem; min-height: 44px; display: inline-flex; align-items: center; }
-nav a[aria-current="page"] { color: var(--gold); background: rgba(226, 184, 96, .08); }
-@media (max-width: 440px) { .brand span { display: none; } nav { flex-wrap: nowrap; gap: 0; } nav a { padding: 10px 8px; font-size: .9rem; } }
+.wrap { max-width: 68rem; margin: 0 auto; padding: 0 max(18px, env(safe-area-inset-left)); }
+.top { position: sticky; top: 0; z-index: 20; background: rgba(8, 7, 12, .82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 58px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--gold); font: 700 1.08rem/1 'Cinzel', Georgia, serif; letter-spacing: .1em; }
+.brand img { width: 36px; height: 36px; border-radius: 50%; box-shadow: 0 0 18px rgba(155, 107, 255, .35); }
+nav { display: flex; gap: 2px; }
+nav a { text-decoration: none; color: var(--ink); padding: 10px 11px; border-radius: 10px; font-size: .96rem; min-height: 44px; display: inline-flex; align-items: center; }
+nav a[aria-current="page"] { color: var(--gold); background: rgba(229, 188, 98, .09); }
+@media (max-width: 460px) { .brand span { display: none; } nav a { padding: 10px 8px; font-size: .92rem; } }
 h1, h2, h3 { font-family: 'Cinzel', Georgia, serif; color: var(--gold); letter-spacing: .03em; text-wrap: balance; }
-h1 { font-size: clamp(1.6rem, 6vw, 2.4rem); line-height: 1.15; margin: 28px 0 8px; }
-h2 { font-size: clamp(1.2rem, 4.5vw, 1.6rem); line-height: 1.2; margin: 44px 0 12px; }
-h3 { font-size: 1.05rem; margin: 0 0 6px; }
+h1 { font-size: clamp(1.7rem, 6vw, 2.5rem); line-height: 1.15; margin: 32px 0 10px; }
+h2 { font-size: clamp(1.35rem, 5vw, 2rem); line-height: 1.18; margin: 0 0 12px; }
+h3 { font-size: 1.08rem; margin: 0 0 6px; }
 .muted { color: var(--muted); }
+.kick { font: 700 .78rem/1 'Cinzel', Georgia, serif; letter-spacing: .22em; text-transform: uppercase; color: var(--violet); margin: 0 0 10px; }
 .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; }
-.hero { text-align: center; padding: 36px 0 12px; }
-.hero .logo { width: min(520px, 92%); margin: 0 auto; filter: drop-shadow(0 10px 40px rgba(155, 107, 255, .25)); }
-.hero p.lead { font-size: clamp(1.08rem, 3.8vw, 1.3rem); max-width: 36rem; margin: 14px auto 0; }
-.badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 22px 0 6px; }
-.badge { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 14px; border: 1px solid var(--line); background: var(--panel2); color: var(--ink); text-decoration: none; min-height: 48px; }
-.badge b { color: var(--gold); font-family: 'Cinzel', Georgia, serif; letter-spacing: .04em; }
-.badge.main { background: linear-gradient(180deg, #3A2A12, #241A0C); border-color: rgba(226, 184, 96, .6); }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 12px; }
-.shots { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 14px; -webkit-overflow-scrolling: touch; }
-.shots figure { flex: 0 0 min(62vw, 260px); margin: 0; scroll-snap-align: start; }
-.shots img { border-radius: 18px; border: 1px solid var(--line); }
-.shots figcaption { color: var(--muted); font-size: .9rem; text-align: center; margin-top: 6px; }
-.promise { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 8px 0 0; padding: 0; list-style: none; }
-.promise li { border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: .95rem; color: var(--ink); }
+/* ouverture */
+.hero { position: relative; min-height: min(92vh, 760px); display: grid; align-items: end; overflow: hidden; isolation: isolate; }
+.hero-bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; transform: scale(1.04); }
+.hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(70% 55% at 50% 38%, transparent 0%, rgba(8, 7, 12, .35) 60%, rgba(8, 7, 12, .92) 100%), linear-gradient(180deg, rgba(8, 7, 12, .25) 0%, transparent 30%, rgba(8, 7, 12, .7) 66%, var(--bg) 100%); }
+.hero-in { text-align: center; padding: 0 0 48px; }
+.hero .logo { width: min(560px, 88%); margin: 0 auto; filter: drop-shadow(0 10px 40px rgba(0, 0, 0, .9)) drop-shadow(0 0 30px rgba(155, 107, 255, .25)); }
+.hero .lead { font-size: clamp(1.1rem, 3.9vw, 1.35rem); max-width: 36rem; margin: 14px auto 0; text-shadow: 0 2px 10px #000; }
+.cta { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 24px 0 14px; }
+.store { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 180px; padding: 11px 20px; border-radius: 14px; border: 1px solid rgba(229, 188, 98, .55); background: linear-gradient(180deg, rgba(58, 42, 18, .92), rgba(28, 20, 9, .92)); color: var(--ink); text-decoration: none; box-shadow: 0 8px 24px rgba(0, 0, 0, .5); }
+.store small { font-size: .74rem; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.store b { font: 700 1.08rem/1.1 'Cinzel', Georgia, serif; color: var(--gold2); letter-spacing: .04em; }
+.promise { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 0; padding: 0; list-style: none; }
+.promise li { border: 1px solid var(--line); background: rgba(19, 17, 26, .7); border-radius: 999px; padding: 6px 14px; font-size: .95rem; }
+/* sections */
+.sec { padding: 64px 0; }
+.sec + .sec { border-top: 1px solid rgba(229, 188, 98, .1); }
+.split { display: grid; gap: 28px; align-items: center; }
+.split > * { min-width: 0; }
+@media (min-width: 820px) { .split { grid-template-columns: 1fr 1fr; gap: 48px; } .split.rev > :first-child { order: 2; } }
+.split p { margin: 0 0 12px; }
+.ticks { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 8px; }
+.ticks li { padding-left: 28px; position: relative; }
+.ticks li::before { content: ''; position: absolute; left: 4px; top: .55em; width: 10px; height: 10px; transform: rotate(45deg); background: var(--gold); box-shadow: 0 0 10px rgba(229, 188, 98, .6); }
+/* cartes en éventail */
+.fan { position: relative; height: clamp(260px, 62vw, 400px); }
+.fan { --sp: 34%; }
+@media (max-width: 600px) { .fan { --sp: 19%; } }
+.fan img { transform: translateX(calc(-50% + var(--i) * var(--sp))) rotate(calc(var(--i) * 7deg)); }
+.fan img { position: absolute; left: 50%; bottom: 0; width: clamp(110px, 25vw, 170px); aspect-ratio: 5 / 7; object-fit: cover; border-radius: 12px; border: 2px solid rgba(229, 188, 98, .7); box-shadow: 0 14px 30px rgba(0, 0, 0, .7); transform-origin: 50% 120%; }
+.realms { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; margin-top: 22px; }
+.realms figure { margin: 0; text-align: center; }
+.realms img { width: 100%; max-width: 54px; margin: 0 auto; }
+.realms figcaption { font-size: .72rem; color: var(--muted); margin-top: 4px; }
+/* gardiens */
+.bosses { display: flex; justify-content: center; align-items: flex-end; gap: 0; height: clamp(220px, 52vw, 360px); position: relative; overflow: hidden; }
+.bosses::before { content: ''; position: absolute; left: 6%; right: 6%; bottom: 0; height: 40%; background: radial-gradient(60% 100% at 50% 100%, rgba(155, 107, 255, .35), transparent 70%); }
+.bosses img { position: relative; height: 82%; width: auto; max-width: 34%; object-fit: contain; object-position: bottom; margin: 0 -3%; filter: drop-shadow(0 10px 20px rgba(0, 0, 0, .8)); }
+.bosses img.big { max-width: 40%; }
+.bosses img.big { height: 100%; z-index: 2; }
+/* jeux */
+.games { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr)); gap: 14px; margin-top: 22px; }
+.game { overflow: hidden; padding: 0; }
+.game img { width: 100%; aspect-ratio: 900 / 297; object-fit: cover; }
+.game div { padding: 12px 16px 16px; }
+.game p { margin: 0; color: var(--muted); font-size: .97rem; }
+.banner { border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 14px 34px rgba(0, 0, 0, .55); }
+.packs { display: flex; justify-content: center; align-items: flex-end; gap: 4%; }
+.packs img { width: 40%; max-width: 210px; filter: drop-shadow(0 16px 26px rgba(0, 0, 0, .8)); }
+.packs img:first-child { transform: rotate(-6deg); }
+.packs img:last-child { transform: rotate(6deg) translateY(-8px); }
+/* captures */
+.shots { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 6px 2px 16px; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.shots figure { flex: 0 0 min(60vw, 250px); margin: 0; scroll-snap-align: center; }
+.shots img { border-radius: 22px; border: 1px solid var(--line); box-shadow: 0 10px 26px rgba(0, 0, 0, .6); }
+.shots figcaption { color: var(--muted); font-size: .9rem; text-align: center; margin-top: 8px; }
+.center { text-align: center; }
+.pledge { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: 12px; margin-top: 20px; }
+.pledge .card b { display: block; color: var(--gold2); font-family: 'Cinzel', Georgia, serif; margin-bottom: 4px; }
+.pledge .card { font-size: .96rem; color: var(--muted); }
+/* pages de texte */
 details { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px; margin: 0 0 10px; }
 summary { cursor: pointer; padding: 12px 0; font-weight: 700; color: var(--ink); min-height: 44px; }
 details[open] summary { color: var(--gold); }
@@ -70,21 +141,24 @@ th, td { text-align: left; vertical-align: top; padding: 8px 6px; border-bottom:
 th { color: var(--gold); }
 .tw { overflow-x: auto; }
 main { padding-bottom: 20px; }
-main.text { max-width: 44rem; }
-footer { margin-top: 48px; border-top: 1px solid var(--line); padding: 20px 0 max(28px, env(safe-area-inset-bottom)); color: var(--muted); font-size: .92rem; text-align: center; }
+main.text { max-width: 46rem; }
+main.text h2 { font-size: 1.2rem; margin: 30px 0 8px; }
+footer { margin-top: 40px; border-top: 1px solid var(--line); padding: 24px 0 max(30px, env(safe-area-inset-bottom)); color: var(--muted); font-size: .92rem; text-align: center; }
 footer a { color: var(--muted); margin: 0 6px; }
-'''
+@media (max-width: 700px) { .hero { min-height: 0; display: block; padding-top: 0; } .hero-bg { position: relative; inset: auto; height: auto; aspect-ratio: 1024 / 572; transform: none; z-index: -2; -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent); mask-image: linear-gradient(180deg, #000 70%, transparent); } .hero::after { display: none; } .hero-in { margin-top: -18vw; padding-bottom: 36px; } .hero .logo { width: min(420px, 82%); } }
+@media (prefers-reduced-motion: no-preference) { .hero-bg { animation: heroIn 2.4s ease-out both; } @keyframes heroIn { from { transform: scale(1.12); opacity: 0; } to { transform: scale(1.04); opacity: 1; } } }
+"""
 NAV = [('index.html', 'Accueil'), ('aide.html', 'Aide'), ('confidentialite.html', 'Confidentialité')]
 def page(fname, title, desc, body, text=True):
     nav = ''.join(f'<a href="{h}"{" aria-current=\"page\"" if h == fname else ""}>{n}</a>' for h, n in NAV)
-    return f'''<!doctype html>
+    return f"""<!doctype html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
 <meta name="description" content="{desc}">
-<meta name="theme-color" content="#0B0A10">
+<meta name="theme-color" content="#08070C">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:type" content="website">
@@ -98,53 +172,87 @@ def page(fname, title, desc, body, text=True):
 <link rel="stylesheet" href="site.css">
 </head>
 <body>
-<header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="img/embleme.webp" alt="" width="34" height="34"><span>ABYSSAL</span></a><nav aria-label="Pages du site">{nav}</nav></div></header>
-<main class="wrap{" text" if text else ""}">
-{body}
-</main>
+<header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="img/embleme.webp" alt="" width="36" height="36"><span>ABYSSAL</span></a><nav aria-label="Pages du site">{nav}</nav></div></header>
+{body if not text else f'<main class="wrap text">{body}</main>'}
 <footer><div class="wrap">ABYSSAL — Le Bestiaire interdit · © 2026<br><a href="aide.html">Aide</a>·<a href="confidentialite.html">Confidentialité</a>·<a href="mentions-legales.html">Mentions légales</a>·<a href="mailto:contact@abyssal-game.fr">contact@abyssal-game.fr</a></div></footer>
 </body>
 </html>
-'''
+"""
 open(f'{OUT}/site.css', 'w').write(STYLE.strip() + '\n')
 
 # ——— Accueil ———
-FEAT = [
-  ('500 créatures à collectionner', 'Démons, anges déchus, dieux oubliés, dragons primordiaux, golems, spectres… 7 royaumes, 6 raretés, et des finitions Argentée, Enluminée et Abyssale.'),
-  ('La Descente', '100 étages et 20 gardiens jusqu’au fond de l’Abysse. Chaque chapitre raconte une page du Bestiaire interdit.'),
-  ('Des combats tactiques', 'Une équipe de 5 créatures, chacune avec son rôle. Pare au bon moment, brise les défenses, enchaîne les coups : le talent compte autant que tes cartes.'),
-  ('La Salle des jeux', 'Les Duels des Sceaux, le Pacte, les Cryptes et les Enchères de Mammon : quatre jeux de cartes, huit adversaires, un défi par jour.'),
-  ('Tes amis', 'Ajoute tes amis grâce à leur pseudo et découvre leur collection, leurs succès et leurs exploits.'),
-  ('Épreuves du jour', 'Trois combats chaque jour, les mêmes pour tous, et un classement.'),
-]
-shots = ''.join(f'<figure><img src="img/shots/{k}.webp" alt="{c}" width="{shot_w}" height="{shot_h}" loading="lazy"><figcaption>{c}</figcaption></figure>' for k, c in SHOTS)
-home = f'''<section class="hero">
+n = len(CREA)
+fan = ''.join(f'<img src="img/cartes/{cid}.webp" alt="{nm} ({fl})" width="360" height="504" loading="lazy" style="--i: {i - (n - 1) // 2}; z-index: {10 - abs(i - 3)}">' for i, (f, fl, cid, nm) in enumerate(CREA))
+realms = ''.join(f'<figure><img src="img/royaumes/{f}.webp" alt="" width="96" height="96" loading="lazy"><figcaption>{fl}</figcaption></figure>' for f, fl, _, _ in CREA)
+bosses = ''.join(f'<img src="img/gardiens/{k}.webp" alt="{nm}, {fl}" loading="lazy"{" class=\"big\"" if k == "abysse" else ""}>' for k, nm, fl in [BOSSES[0], BOSSES[1], BOSSES[3], BOSSES[2]])
+games = ''.join(f'<article class="card game"><img src="img/jeux/{k}.webp" alt="" width="900" height="297" loading="lazy"><div><h3>{t}</h3><p>{d}</p></div></article>' for k, t, d in GAMES)
+shots = ''.join(f'<figure><img src="img/shots/{k}.webp" alt="{c}" width="{shot_w}" height="{shot_h}" ><figcaption>{c}</figcaption></figure>' for k, c in SHOTS)
+home = f"""<section class="hero"><img class="hero-bg" src="img/hero.webp" alt="" width="1024" height="572">
+<div class="wrap hero-in">
   <h1 style="position:absolute;left:-9999px">ABYSSAL — Le Bestiaire interdit</h1>
   <img class="logo" src="img/titre.webp" alt="ABYSSAL — Le Bestiaire interdit">
   <p class="lead">Un jeu de cartes à collectionner dark fantasy. Ouvre des boosters, rassemble 500 créatures tirées des mythes et descends dans l’Abysse, étage après étage.</p>
-  <div class="badges"><span class="badge main"><b>Bientôt sur iPhone</b></span></div>
-  <ul class="promise"><li>Gratuit</li><li>Sans publicité</li><li>Toutes les cartes se gagnent en jouant</li><li>Aucun achat qui rend plus fort</li></ul>
-</section>
-<h2>Le jeu en images</h2>
-<div class="shots" aria-label="Captures d’écran du jeu">{shots}</div>
-<h2>Ce qui t’attend</h2>
-<div class="grid">{''.join(f'<div class="card"><h3>{t}</h3><p class="muted" style="margin:0">{d}</p></div>' for t, d in FEAT)}</div>
-<h2>Une question ?</h2>
-<p>Consulte la page <a href="aide.html">Aide</a>, ou écris-nous à <a href="mailto:contact@abyssal-game.fr">contact@abyssal-game.fr</a>.</p>'''
-open(f'{OUT}/index.html', 'w').write(page('index.html', 'ABYSSAL — Le Bestiaire interdit', 'ABYSSAL, jeu de cartes à collectionner dark fantasy : 500 créatures, 100 étages, 20 gardiens. Gratuit, sans publicité.', home, text=False))
+  <div class="cta"><span class="store"><small>Bientôt sur</small><b>iPhone</b></span><span class="store"><small>Bientôt sur</small><b>Android</b></span></div>
+  <ul class="promise"><li>Gratuit</li><li>Sans publicité</li><li>Toutes les cartes se gagnent en jouant</li></ul>
+</div></section>
+<main>
+<section class="sec"><div class="wrap split">
+  <div><p class="kick">La collection</p><h2>500 créatures, sept royaumes</h2>
+  <p>Démons, anges déchus, dieux oubliés, dragons primordiaux, automates et spectres : chaque créature a son illustration, son histoire et son rôle au combat.</p>
+  <ul class="ticks"><li>6 raretés, de la Commune à la Secrète</li><li>Des finitions Argentée, Enluminée et Abyssale à collectionner</li><li>Un booster gratuit chaque jour</li></ul>
+  <div class="realms">{realms}</div></div>
+  <div class="fan" aria-label="Sept créatures, une par royaume">{fan}</div>
+</div></section>
+<section class="sec"><div class="wrap split rev">
+  <div><p class="kick">La Descente</p><h2>100 étages, 20 gardiens</h2>
+  <p>Descends dans l’Abysse chapitre après chapitre. Chaque page du Bestiaire interdit est gardée par un monstre unique, avec ses règles et sa Furie.</p>
+  <ul class="ticks"><li>Une équipe de 5 créatures, chacune avec son rôle</li><li>Pare au bon moment, brise les défenses, enchaîne les coups : le talent compte autant que tes cartes</li><li>Au fond, l’Abysse elle-même t’attend</li></ul></div>
+  <div class="bosses">{bosses}</div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <p class="kick center">La Salle des jeux</p><h2 class="center">Quatre jeux de cartes dans le jeu</h2>
+  <p class="center muted" style="max-width:38rem;margin:0 auto">Huit adversaires par jeu, un défi chaque jour, des salles aux règles différentes.</p>
+  <div class="games">{games}</div>
+</div></section>
+<section class="sec"><div class="wrap split">
+  <div><p class="kick">En ligne</p><h2>Joue contre d’autres joueurs</h2>
+  <p>Les Duels des Sceaux, le Pacte et les Enchères se jouent aussi contre de vrais joueurs ; les Cryptes, entre amis.</p>
+  <ul class="ticks"><li>Partie rapide (30 secondes par coup) ou partie lente (12 heures par coup)</li><li>Le Pari des Boosters : chacun ouvre les mêmes boosters, le meilleur tirage remporte tout</li><li>Des amis, leurs collections, leurs exploits et des classements</li></ul></div>
+  <img class="banner" src="img/jeux/enligne.webp" alt="" width="900" height="297" loading="lazy">
+</div></section>
+<section class="sec"><div class="wrap split rev">
+  <div><p class="kick">Chaque jour</p><h2>Boosters, Épreuves et coffres</h2>
+  <p>Un booster gratuit, trois Épreuves du jour (les mêmes pour tous, avec leur classement), des missions et des coffres à ouvrir.</p></div>
+  <div class="packs"><img src="img/standard2.webp" alt="Booster standard" loading="lazy"><img src="img/abysse2.webp" alt="Booster de l’Abysse" loading="lazy"></div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <p class="kick center">Le jeu en images</p><h2 class="center">Aperçu</h2>
+  <div class="shots" aria-label="Captures d’écran du jeu">{shots}</div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <h2 class="center">Notre promesse</h2>
+  <div class="pledge"><div class="card"><b>Gratuit</b>Le jeu entier se joue sans payer.</div><div class="card"><b>Sans publicité</b>Aucune publicité, aucun pistage.</div><div class="card"><b>Jamais plus fort en payant</b>Toutes les cartes se gagnent en jouant. Une future boutique ne vendra que des objets d’apparence.</div></div>
+  <p class="center" style="margin-top:28px">Une question ? Consulte l’<a href="aide.html">Aide</a> ou écris-nous à <a href="mailto:contact@abyssal-game.fr">contact@abyssal-game.fr</a>.</p>
+</div></section>
+</main>"""
+open(f'{OUT}/index.html', 'w').write(page('index.html', 'ABYSSAL — Le Bestiaire interdit', 'ABYSSAL, jeu de cartes à collectionner dark fantasy : 500 créatures, 100 étages, 20 gardiens, quatre jeux de cartes et des parties en ligne. Gratuit, sans publicité.', home, text=False))
 
 # ——— Aide ———
 FAQ = [
-  ('Comment créer un compte ?', 'Au lancement du jeu, touche « Créer un compte », ou plus tard : <b>Sanctuaire → Compte</b>. Le compte est facultatif : il sauvegarde ta partie en ligne pour la retrouver sur un autre téléphone, et te permet d’apparaître dans les classements et d’ajouter des amis.'),
+  ('Faut-il un compte pour jouer ?', 'Oui. Au premier lancement, crée ton compte (adresse e-mail, mot de passe, puis pseudo). Ta partie y est liée et sauvegardée en ligne : tu la retrouves sur n’importe quel téléphone en te connectant.'),
   ('J’ai oublié mon mot de passe', 'Sur l’écran Compte, touche « Mot de passe oublié ? » et entre ton adresse e-mail. Tu reçois un lien pour choisir un nouveau mot de passe. Pense à regarder dans tes courriers indésirables.'),
   ('Changer mon mot de passe', '<b>Sanctuaire → Compte → Changer mon mot de passe</b>. Il doit compter 8 caractères au moins, avec une majuscule, une minuscule, un chiffre et un symbole.'),
   ('Puis-je changer mon pseudo ?', 'Non : le pseudo est définitif une fois choisi, c’est grâce à lui que tes amis te trouvent. Seule exception : un pseudo masqué après des signalements peut être remplacé une fois.'),
-  ('Ajouter un ami', '<b>Sanctuaire → Amis</b>, puis tape son pseudo. Tu peux aussi toucher un joueur dans un classement. Une fois la demande acceptée, vous voyez mutuellement vos collections, vos succès et vos statistiques.'),
-  ('J’ai changé de téléphone', 'Si tu as un compte : installe le jeu et connecte-toi, ta partie revient. Sans compte, la partie reste seulement sur l’ancien appareil ; tu peux en copier une sauvegarde depuis <b>Réglages → Jeu → Avancé</b> avant de changer.'),
-  ('Signaler un joueur', 'Dans un classement, touche le pseudo d’un joueur : tu peux le signaler ou le masquer pour toi. Un pseudo signalé par plusieurs joueurs est masqué pour tout le monde.'),
-  ('Supprimer mon compte', '<b>Sanctuaire → Compte → Supprimer mon compte</b> : ton profil, ta sauvegarde en ligne et tes scores sont effacés. Tu n’as plus l’application ? Écris-nous depuis l’adresse e-mail de ton compte, objet « Suppression de compte » : c’est fait sous 30 jours. Voir aussi la <a href="confidentialite.html#suppression">politique de confidentialité</a>.'),
-  ('Y a-t-il des achats dans le jeu ?', 'Le jeu est gratuit et sans publicité, et toutes les cartes se gagnent en jouant. Plus tard, une boutique proposera des objets <b>uniquement cosmétiques</b> (cadres de profil, dos de cartes, finitions de prestige…) : ils changent l’apparence, jamais la force de tes créatures. Aucun booster, aucune monnaie du jeu ni aucun avantage en combat ne sera vendu.'),
-  ('Le jeu n’a pas de son', 'Vérifie le volume dans <b>Réglages → Jeu</b>. Le son du jeu fonctionne même quand l’iPhone est en mode silencieux.'),
+  ('J’ai changé de téléphone', 'Installe le jeu et connecte-toi avec ton compte : ta partie revient telle que tu l’as laissée.'),
+  ('Ajouter un ami', '<b>Sanctuaire → Amis</b>, puis tape son pseudo. Tu peux aussi toucher le pseudo d’un joueur (classement, partie en ligne) pour ouvrir son profil et l’ajouter. Une fois la demande acceptée, vous voyez mutuellement vos collections complètes.'),
+  ('Comment jouer contre d’autres joueurs ?', '<b>Aventure → Jeux</b>, choisis un jeu puis « Contre un joueur ». Partie rapide : 30 secondes par coup. Partie lente : 12 heures par coup. Si le temps est dépassé, la partie est perdue. Les Cryptes se jouent seulement entre amis.'),
+  ('Le Pari des Boosters, c’est quoi ?', 'Un défi entre deux joueurs : vous misez des éclats sur les mêmes boosters, ils s’ouvrent face à face, et le meilleur tirage remporte toutes les cartes. En cas d’égalité, chacun garde les siennes.'),
+  ('Signaler ou masquer un joueur', 'Touche son pseudo pour ouvrir son profil, puis « Signaler ou masquer ce joueur ». Un pseudo signalé par plusieurs joueurs est masqué pour tout le monde.'),
+  ('Recevoir les rappels sur mon téléphone', 'Dans l’application, <b>Réglages → Jeu → Notifications</b> : booster gratuit du jour et « à toi de jouer » dans une partie lente.'),
+  ('Le jeu existe-t-il en anglais ?', 'Oui : <b>Réglages → Jeu → Langue</b>, Français ou English.'),
+  ('Supprimer mon compte', '<b>Sanctuaire → Compte → Supprimer mon compte</b> : ton profil, ta sauvegarde en ligne et tes scores sont effacés. Tu n’as plus l’application ? Écris-nous depuis l’adresse e-mail de ton compte, objet « Suppression de compte ».'),
+  ('Y a-t-il des achats dans le jeu ?', 'Le jeu est gratuit et sans publicité, et toutes les cartes se gagnent en jouant. Plus tard, une boutique proposera des objets <b>uniquement d’apparence</b> (cadres de profil, dos de cartes, finitions) : jamais rien qui rende plus fort.'),
+  ('Le jeu n’a pas de son', 'Vérifie le volume dans <b>Réglages → Jeu</b>. Dans l’application, le son fonctionne même quand le téléphone est en mode silencieux.'),
 ]
 aide = '<h1>Aide</h1><p class="muted">Les réponses aux questions les plus fréquentes. Tu ne trouves pas ? Écris-nous.</p>' + ''.join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q, a in FAQ) + '''
 <h2 id="contact">Nous contacter</h2>
