@@ -43,9 +43,9 @@ GAMES = [('sceaux', 'Les Duels des Sceaux', 'Pose tes cartes sur le plateau et r
          ('pacte', 'Le Pacte', 'Tire des cartes et additionne… sans jamais tirer deux fois le même royaume.'),
          ('cryptes', 'Les Cryptes', 'Un duel de mémoire : chaque paire trouvée réveille le pouvoir de son royaume.'),
          ('encheres', 'Les Enchères de Mammon', 'Des offrandes secrètes, des créatures à gagner, des malédictions à éviter.')]
-for k, _, _ in GAMES + [('enligne', '', ''), ('amis', '', ''), ('descente', '', ''), ('trial', '', '')]:
+for k, _, _ in GAMES + [('enligne', '', ''), ('amis', '', ''), ('descente', '', ''), ('trial', '', ''), ('echoppe', '', ''), ('codex', '', '')]:
     shutil.copy(f'{G}/assets/ui/bn-{k}.webp', f'{OUT}/img/jeux/{k}.webp')
-for k in ('standard2', 'abysse2'):
+for k in ('standard3', 'abysse2'):
     im = Image.open(f'{G}/assets/packs/{k}.webp').convert('RGBA'); h = 420
     im.resize((round(im.width * h / im.height), h), Image.LANCZOS).save(f'{OUT}/img/{k}.webp', quality=84)
 
@@ -191,26 +191,26 @@ home = f"""<section class="hero"><img class="hero-bg" src="img/hero.webp" alt=""
 <div class="wrap hero-in">
   <h1 style="position:absolute;left:-9999px">ABYSSAL — Le Bestiaire interdit</h1>
   <img class="logo" src="img/titre.webp" alt="ABYSSAL — Le Bestiaire interdit">
-  <p class="lead">Un jeu de cartes à collectionner dark fantasy. Ouvre des boosters, rassemble 500 créatures tirées des mythes et descends dans l’Abysse, étage après étage.</p>
+  <p class="lead">Un jeu de cartes à collectionner dark fantasy. Ouvre des boosters, rassemble plus de 500 créatures tirées des mythes et descends dans l’Abysse, étage après étage.</p>
   <div class="cta"><span class="store"><small>Bientôt sur</small><b>iPhone</b></span><span class="store"><small>Bientôt sur</small><b>Android</b></span></div>
   <ul class="promise"><li>Gratuit</li><li>Sans publicité</li><li>Toutes les cartes se gagnent en jouant</li></ul>
 </div></section>
 <main>
 <section class="sec"><div class="wrap split">
-  <div><p class="kick">La collection</p><h2>500 créatures, sept royaumes</h2>
+  <div><p class="kick">La collection</p><h2>Plus de 500 créatures, sept royaumes</h2>
   <p>Démons, anges déchus, dieux oubliés, dragons primordiaux, automates et spectres : chaque créature a son illustration, son histoire et son rôle au combat.</p>
-  <ul class="ticks"><li>6 raretés, de la Commune à la Secrète</li><li>Des finitions Argentée, Enluminée et Abyssale à collectionner</li><li>Un booster gratuit chaque jour</li></ul>
+  <ul class="ticks"><li>6 raretés, de la Commune à la Secrète</li><li>Cinq finitions à collectionner, de l’Argentée à la Prismatique</li><li>Un booster gratuit chaque jour</li></ul>
   <div class="realms">{realms}</div></div>
   <div class="fan" aria-label="Sept créatures, une par royaume">{fan}</div>
 </div></section>
 <section class="sec"><div class="wrap split rev">
   <div><p class="kick">La Descente</p><h2>100 étages, 20 gardiens</h2>
-  <p>Descends dans l’Abysse chapitre après chapitre. Chaque page du Bestiaire interdit est gardée par un monstre unique, avec ses règles et sa Furie.</p>
-  <ul class="ticks"><li>Une équipe de 5 créatures, chacune avec son rôle</li><li>Pare au bon moment, brise les défenses, enchaîne les coups : le talent compte autant que tes cartes</li><li>Au fond, l’Abysse elle-même t’attend</li></ul></div>
+  <p>Le Bestiaire interdit a été déchiré, et ses pages sont tombées dans l’Abysse. Toi seul sais encore lire les sceaux : descends chapitre après chapitre pour les refermer. Chaque chapitre est gardé par un rêve de l’Abysse, un gardien unique avec ses règles et sa Furie.</p>
+  <ul class="ticks"><li>Une équipe de 5 créatures, chacune avec son rôle</li><li>Pare au bon moment, brise les défenses, enchaîne les coups : le talent compte autant que tes cartes</li><li>Une créature tombée reste à terre : rallume-la avec une Braise de vie</li><li>Au fond, l’Abysse t’attend… et ce qui rêve derrière elle</li></ul></div>
   <div class="bosses">{bosses}</div>
 </div></section>
 <section class="sec"><div class="wrap">
-  <p class="kick center">La Salle des jeux</p><h2 class="center">Quatre jeux de cartes dans le jeu</h2>
+  <p class="kick center">Le Cercle de l’Abysse</p><h2 class="center">Quatre jeux de cartes dans le jeu</h2>
   <p class="center muted" style="max-width:38rem;margin:0 auto">Huit adversaires par jeu, un défi chaque jour, des salles aux règles différentes.</p>
   <div class="games">{games}</div>
 </div></section>
@@ -222,8 +222,14 @@ home = f"""<section class="hero"><img class="hero-bg" src="img/hero.webp" alt=""
 </div></section>
 <section class="sec"><div class="wrap split rev">
   <div><p class="kick">Chaque jour</p><h2>Boosters, Épreuves et coffres</h2>
-  <p>Un booster gratuit, trois Épreuves du jour (les mêmes pour tous, avec leur classement), des missions et des coffres à ouvrir.</p></div>
-  <div class="packs"><img src="img/standard2.webp" alt="Booster standard" loading="lazy"><img src="img/abysse2.webp" alt="Booster de l’Abysse" loading="lazy"></div>
+  <p>Un booster gratuit, trois Épreuves du jour (les mêmes pour tous), des missions, une offrande et des coffres à ouvrir.</p></div>
+  <div class="packs"><img src="img/standard3.webp" alt="Booster standard" loading="lazy"><img src="img/abysse2.webp" alt="Booster de l’Abysse" loading="lazy"></div>
+</div></section>
+<section class="sec"><div class="wrap split">
+  <div><p class="kick">Bientôt</p><h2>L’Échoppe et le Codex de l’Abîme</h2>
+  <p>Pour soutenir le jeu, une boutique uniquement d’apparence : cadres de profil vivants, dos de cartes animés, sachets de booster, plaques de pseudo, tapis de jeu, fonds de profil et réactions pour tes parties en ligne.</p>
+  <ul class="ticks"><li>Le Codex de l’Abîme : une saison par mois, 30 paliers, une voie gratuite et une voie enluminée aux cosmétiques exclusifs</li><li>Saison I, La Nuit des Âmes, à partir du 1er décembre 2026</li><li>Jamais de cartes, de monnaie de jeu ni de puissance à acheter</li></ul></div>
+  <img class="banner" src="img/jeux/echoppe.webp" alt="" width="900" height="297" loading="lazy">
 </div></section>
 <section class="sec"><div class="wrap">
   <p class="kick center">Le jeu en images</p><h2 class="center">Aperçu</h2>
@@ -231,11 +237,11 @@ home = f"""<section class="hero"><img class="hero-bg" src="img/hero.webp" alt=""
 </div></section>
 <section class="sec"><div class="wrap">
   <h2 class="center">Notre promesse</h2>
-  <div class="pledge"><div class="card"><b>Gratuit</b>Le jeu entier se joue sans payer.</div><div class="card"><b>Sans publicité</b>Aucune publicité, aucun pistage.</div><div class="card"><b>Jamais plus fort en payant</b>Toutes les cartes se gagnent en jouant. Une future boutique ne vendra que des objets d’apparence.</div></div>
+  <div class="pledge"><div class="card"><b>Gratuit</b>Le jeu entier se joue sans payer.</div><div class="card"><b>Sans publicité</b>Aucune publicité, aucun pistage.</div><div class="card"><b>Jamais plus fort en payant</b>Toutes les cartes se gagnent en jouant. L’Échoppe et le Codex ne vendent que des objets d’apparence.</div></div>
   <p class="center" style="margin-top:28px">Une question ? Consulte l’<a href="aide.html">Aide</a> ou écris-nous à <a href="mailto:contact@abyssal-game.fr">contact@abyssal-game.fr</a>.</p>
 </div></section>
 </main>"""
-open(f'{OUT}/index.html', 'w').write(page('index.html', 'ABYSSAL — Le Bestiaire interdit', 'ABYSSAL, jeu de cartes à collectionner dark fantasy : 500 créatures, 100 étages, 20 gardiens, quatre jeux de cartes et des parties en ligne. Gratuit, sans publicité.', home, text=False))
+open(f'{OUT}/index.html', 'w').write(page('index.html', 'ABYSSAL — Le Bestiaire interdit', 'ABYSSAL, jeu de cartes à collectionner dark fantasy : plus de 500 créatures, 100 étages, 20 gardiens, quatre jeux de cartes et des parties en ligne. Gratuit, sans publicité.', home, text=False))
 
 # ——— Aide ———
 FAQ = [
@@ -249,9 +255,11 @@ FAQ = [
   ('Le Pari des Boosters, c’est quoi ?', 'Un défi entre deux joueurs : vous misez des éclats sur les mêmes boosters, ils s’ouvrent face à face, et le meilleur tirage remporte toutes les cartes. En cas d’égalité, chacun garde les siennes.'),
   ('Signaler ou masquer un joueur', 'Touche son pseudo pour ouvrir son profil, puis « Signaler ou masquer ce joueur ». Un pseudo signalé par plusieurs joueurs est masqué pour tout le monde.'),
   ('Recevoir les rappels sur mon téléphone', 'Dans l’application, <b>Réglages → Jeu → Notifications</b> : booster gratuit du jour et « à toi de jouer » dans une partie lente.'),
-  ('Le jeu existe-t-il en anglais ?', 'Oui : <b>Réglages → Jeu → Langue</b>, Français ou English.'),
+  ('Dans quelles langues peut-on jouer ?', 'En six langues : français, English, español, Deutsch, italiano et português. <b>Réglages → Jeu → Langue</b>.'),
   ('Supprimer mon compte', '<b>Sanctuaire → Compte → Supprimer mon compte</b> : ton profil, ta sauvegarde en ligne et tes scores sont effacés. Tu n’as plus l’application ? Écris-nous depuis l’adresse e-mail de ton compte, objet « Suppression de compte ».'),
-  ('Y a-t-il des achats dans le jeu ?', 'Le jeu est gratuit et sans publicité, et toutes les cartes se gagnent en jouant. Plus tard, une boutique proposera des objets <b>uniquement d’apparence</b> (cadres de profil, dos de cartes, finitions) : jamais rien qui rende plus fort.'),
+  ('Y a-t-il des achats dans le jeu ?', 'Le jeu est gratuit et sans publicité, et toutes les cartes se gagnent en jouant. Bientôt, l’Échoppe proposera des objets <b>uniquement d’apparence</b> (cadres de profil, dos de cartes, sachets, plaques, tapis, fonds de profil, réactions), achetés avec des obsidiennes, ainsi que le Codex enluminé et le Pack du Fondateur : jamais rien qui rende plus fort. Les paiements passent par l’App Store ou Google Play.'),
+  ('Qu’est-ce que le Codex de l’Abîme ?', 'Le pass de saison du jeu : une saison par mois, 30 paliers à franchir en jouant. La voie gratuite donne des éclats, des cendres, des coffres et des boosters ; la voie enluminée, achetée une fois par saison, donne à chaque palier un objet d’apparence exclusif. Première saison : La Nuit des Âmes, à partir du 1er décembre 2026.'),
+  ('J’ai changé de téléphone : retrouver mes achats', 'Tes achats sont liés à ton compte ABYSSAL : connecte-toi et ils reviennent. Dans l’Échoppe, « Restaurer mes achats » vérifie à nouveau tes paiements auprès de l’App Store ou de Google Play.'),
   ('Le jeu n’a pas de son', 'Vérifie le volume dans <b>Réglages → Jeu</b>. Dans l’application, le son fonctionne même quand le téléphone est en mode silencieux.'),
 ]
 aide = '<h1>Aide</h1><p class="muted">Les réponses aux questions les plus fréquentes. Tu ne trouves pas ? Écris-nous.</p>' + ''.join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q, a in FAQ) + '''
@@ -274,7 +282,7 @@ open(f'{OUT}/confidentialite.html', 'w').write(page('confidentialite.html', 'Con
 # ——— Mentions légales ———
 ml = '''<h1>Mentions légales</h1>
 <h2>Éditeur</h2>
-<p class="card">ABYSSAL — Le Bestiaire interdit<br>Site et jeu édités à titre personnel, sans activité commerciale.<br>Contact : <a href="mailto:contact@abyssal-game.fr">contact@abyssal-game.fr</a></p>
+<p class="card">ABYSSAL — Le Bestiaire interdit<br>Site et jeu édités par une entreprise individuelle (immatriculation en cours).<br>Contact : <a href="mailto:contact@abyssal-game.fr">contact@abyssal-game.fr</a></p>
 <h2>Hébergement</h2>
 <p class="card">Site : GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.<br>Comptes et sauvegardes du jeu : Supabase, Inc., hébergement en Union européenne.<br>Nom de domaine : OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.</p>
 <h2>Propriété</h2>
