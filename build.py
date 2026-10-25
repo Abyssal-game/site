@@ -20,7 +20,7 @@ shutil.copy(f'{G}/icons/apple-touch-icon.png', f'{OUT}/apple-touch-icon.png')
 _p = Image.open(f'{G}/store/ui/partage-source.jpg').convert('RGB'); _h = round(_p.width * 630 / 1200); _y = (_p.height - _h) // 2
 _p.crop((0, _y, _p.width, _y + _h)).resize((1200, 630), Image.LANCZOS).save(f'{OUT}/img/partage.jpg', quality=84)  # image de partage (Gemini)
 Image.open(f'{G}/store/apple/icone-1024.png').convert('RGB').resize((512, 512), Image.LANCZOS).save(f'{OUT}/img/icone.webp', quality=86)
-SHOTS = [('accueil', 'L’Accueil et tes objectifs du jour'), ('ouverture', 'L’ouverture d’un booster'), ('combat', 'Un combat contre un gardien'), ('collection', 'Ta collection de 500 créatures'), ('equipe', 'Ton équipe'), ('sceaux', 'Les Duels des Sceaux'), ('bestiaire', 'Le Bestiaire'), ('carte', 'Une carte en détail')]
+SHOTS = [('accueil', 'L’Accueil et tes objectifs du jour'), ('ouverture', 'L’ouverture d’un booster'), ('combat', 'Un combat contre un gardien'), ('collection', 'Ta collection de plus de 500 créatures'), ('equipe', 'Ton équipe'), ('sceaux', 'Les Duels des Sceaux'), ('bestiaire', 'Le Bestiaire'), ('carte', 'Une carte en détail')]
 for k, _ in SHOTS:
     im = Image.open(f'{G}/store/raw/{k}.png').convert('RGB'); w = 540
     im.resize((w, round(im.height * w / im.width)), Image.LANCZOS).save(f'{OUT}/img/shots/{k}.webp', quality=78)
