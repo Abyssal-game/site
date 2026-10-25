@@ -55,11 +55,10 @@ h3 { font-size: 1.08rem; margin: 0 0 6px; }
 .realms img { width: 100%; max-width: 54px; margin: 0 auto; }
 .realms figcaption { font-size: .72rem; color: var(--muted); margin-top: 4px; }
 /* gardiens */
-.bosses { display: flex; justify-content: center; align-items: flex-end; gap: 0; height: clamp(220px, 52vw, 360px); position: relative; overflow: hidden; }
-.bosses::before { content: ''; position: absolute; left: 6%; right: 6%; bottom: 0; height: 40%; background: radial-gradient(60% 100% at 50% 100%, rgba(155, 107, 255, .35), transparent 70%); }
-.bosses img { position: relative; height: 82%; width: auto; max-width: 34%; object-fit: contain; object-position: bottom; margin: 0 -3%; filter: drop-shadow(0 10px 20px rgba(0, 0, 0, .8)); }
-.bosses img.big { max-width: 40%; }
-.bosses img.big { height: 100%; z-index: 2; }
+.bosses { display: flex; justify-content: center; align-items: center; container-type: inline-size; position: relative; padding: 18px 0 34px; }
+.bosses::before { content: ''; position: absolute; left: 6%; right: 6%; bottom: 0; height: 50%; background: radial-gradient(60% 100% at 50% 100%, rgba(200, 40, 40, .28), transparent 70%); }
+.bosses img { position: relative; width: min(26cqi, 190px); height: auto; aspect-ratio: 5 / 7; margin: 0 -4cqi; border-radius: 10px; border: 2px solid #c9a24d; box-shadow: 0 12px 28px rgba(0, 0, 0, .75), 0 0 0 1px rgba(0, 0, 0, .6); transform: rotate(calc(var(--i) * 6deg)) translateY(calc(var(--a) * 14px)); }
+.bosses img[style*="--i: 0;"] { transform: scale(1.12); border-color: #e0bd63; box-shadow: 0 14px 34px rgba(0, 0, 0, .8), 0 0 26px rgba(200, 40, 40, .45); }
 /* jeux */
 .games { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr)); gap: 14px; margin-top: 22px; }
 .game { overflow: hidden; padding: 0; }
