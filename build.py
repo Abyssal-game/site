@@ -217,7 +217,7 @@ home = f"""<section class="hero"><img class="hero-bg" src="img/hero.webp" alt=""
 <section class="sec"><div class="wrap split">
   <div><p class="kick">En ligne</p><h2>Joue contre d’autres joueurs</h2>
   <p>Les Duels des Sceaux, le Pacte et les Enchères se jouent aussi contre de vrais joueurs ; les Cryptes, entre amis.</p>
-  <ul class="ticks"><li>Partie rapide (30 secondes par coup) ou partie lente (12 heures par coup)</li><li>Le Pari des Boosters : chacun ouvre les mêmes boosters, le meilleur tirage remporte tout</li><li>Des amis, leurs collections, leurs exploits et des classements</li></ul></div>
+  <ul class="ticks"><li>Partie rapide (30 secondes par coup) ou partie lente (12 heures par coup)</li><li>Le Choc des Boosters : chacun ouvre ses boosters face à l’autre et garde ses cartes, le meilleur tirage gagne un butin offert par le jeu</li><li>Des amis, leurs collections, leurs exploits et des classements</li></ul></div>
   <img class="banner" src="img/jeux/enligne.webp" alt="" width="900" height="297" loading="lazy">
 </div></section>
 <section class="sec"><div class="wrap split rev">
@@ -252,9 +252,10 @@ FAQ = [
   ('J’ai changé de téléphone', 'Installe le jeu et connecte-toi avec ton compte : ta partie revient telle que tu l’as laissée.'),
   ('Ajouter un ami', '<b>Sanctuaire → Amis</b>, puis tape son pseudo. Tu peux aussi toucher le pseudo d’un joueur (classement, partie en ligne) pour ouvrir son profil et l’ajouter. Une fois la demande acceptée, vous voyez mutuellement vos collections complètes.'),
   ('Comment jouer contre d’autres joueurs ?', '<b>Aventure → Jeux</b>, choisis un jeu puis « Contre un joueur ». Partie rapide : 30 secondes par coup. Partie lente : 12 heures par coup. Si le temps est dépassé, la partie est perdue. Les Cryptes se jouent seulement entre amis.'),
-  ('Le Pari des Boosters, c’est quoi ?', 'Un défi entre deux joueurs : vous misez des éclats sur les mêmes boosters, ils s’ouvrent face à face, et le meilleur tirage remporte toutes les cartes. En cas d’égalité, chacun garde les siennes.'),
+  ('Le Choc des Boosters, c’est quoi ?', 'Un défi entre deux joueurs : chacun achète les mêmes boosters au prix de la boutique, ils s’ouvrent face à face, et <b>chacun garde toujours ses cartes</b>. Le meilleur tirage reçoit un butin offert par le jeu : la copie d’une carte de son choix parmi celles de l’adversaire, et des éclats. Le perdant ne perd rien.'),
+  ('Les Torches, c’est quoi ?', 'Chaque combat de la Descente brûle une Torche, qu’il soit gagné ou perdu. Tu en as <b>5 par jour</b> : elles se rallument à minuit. Sans Torche, ton équipe se repose et ton chapitre t’attend jusqu’au lendemain. Les Épreuves du jour, le Cercle de l’Abysse, les boosters et la Fournaise ne demandent pas de Torche.'),
   ('Signaler ou masquer un joueur', 'Touche son pseudo pour ouvrir son profil, puis « Signaler ou masquer ce joueur ». Un pseudo signalé par plusieurs joueurs est masqué pour tout le monde.'),
-  ('Recevoir les rappels sur mon téléphone', 'Dans l’application, <b>Réglages → Jeu → Notifications</b> : booster gratuit du jour et « à toi de jouer » dans une partie lente.'),
+  ('Recevoir les rappels sur mon téléphone', 'Dans l’application, <b>Réglages → Jeu → Notifications</b> : booster gratuit du jour, offrande du soir, Tirage des Ombres, « à toi de jouer » dans une partie lente, défis et demandes d’ami.'),
   ('Dans quelles langues peut-on jouer ?', 'En six langues : français, English, español, Deutsch, italiano et português. <b>Réglages → Jeu → Langue</b>.'),
   ('Supprimer mon compte', '<b>Sanctuaire → Compte → Supprimer mon compte</b> : ton profil, ta sauvegarde en ligne et tes scores sont effacés. Tu n’as plus l’application ? Écris-nous depuis l’adresse e-mail de ton compte, objet « Suppression de compte ».'),
   ('Y a-t-il des achats dans le jeu ?', 'Le jeu est gratuit et sans publicité, et toutes les cartes se gagnent en jouant. Bientôt, l’Échoppe proposera des objets <b>uniquement d’apparence</b> (cadres de profil, dos de cartes, sachets, plaques, tapis, fonds de profil, réactions), achetés avec des obsidiennes, ainsi que le Codex enluminé et le Pack du Fondateur : jamais rien qui rende plus fort. Les paiements passent par l’App Store ou Google Play.'),
