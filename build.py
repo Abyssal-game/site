@@ -35,10 +35,9 @@ os.makedirs(f'{OUT}/img/cartes'); os.makedirs(f'{OUT}/img/royaumes'); os.makedir
 for f, _, cid, _ in CREA:
     Image.open(f'{G}/assets/art/{cid}.webp').convert('RGB').resize((360, 504), Image.LANCZOS).save(f'{OUT}/img/cartes/{cid}.webp', quality=80)
     Image.open(f'{G}/assets/factions/{f}.webp').convert('RGBA').resize((96, 96), Image.LANCZOS).save(f'{OUT}/img/royaumes/{f}.webp', quality=86)
-BOSSES = [('roi', 'Le Roi sans Visage', 'étage 5'), ('devoreur', 'Le Dévoreur', 'étage 10'), ('chasseur', 'Le Chasseur sans Ombre', 'étage 70'), ('abysse', 'L’Abysse', 'étage 100')]
+BOSSES = [('roi', 'Le Roi sans Visage', 'étage 5'), ('matriarche', 'La Matriarche du Givre', 'étage 10'), ('abysse', 'L’Abysse', 'étage 100'), ('titan', 'Le Titan Endormi', 'étage 80'), ('chasseur', 'Le Chasseur sans Ombre', 'étage 70')]
 for k, _, _ in BOSSES:
-    im = Image.open(f'{G}/assets/bosses/{k}.webp').convert('RGBA'); h = 420
-    im.resize((round(im.width * h / im.height), h), Image.LANCZOS).save(f'{OUT}/img/gardiens/{k}.webp', quality=82)
+    Image.open(f'{G}/assets/bosses/combat-{k}.webp').convert('RGB').resize((360, 504), Image.LANCZOS).save(f'{OUT}/img/gardiens/{k}.webp', quality=82)
 GAMES = [('sceaux', 'Les Duels des Sceaux', 'Pose tes cartes sur le plateau et retourne celles de l’adversaire.'),
          ('pacte', 'Le Pacte', 'Tire des cartes et additionne… sans jamais tirer deux fois le même royaume.'),
          ('cryptes', 'Les Cryptes', 'Un duel de mémoire : chaque paire trouvée réveille le pouvoir de son royaume.'),
@@ -107,11 +106,10 @@ h3 { font-size: 1.08rem; margin: 0 0 6px; }
 .realms img { width: 100%; max-width: 54px; margin: 0 auto; }
 .realms figcaption { font-size: .72rem; color: var(--muted); margin-top: 4px; }
 /* gardiens */
-.bosses { display: flex; justify-content: center; align-items: flex-end; gap: 0; height: clamp(220px, 52vw, 360px); position: relative; overflow: hidden; }
-.bosses::before { content: ''; position: absolute; left: 6%; right: 6%; bottom: 0; height: 40%; background: radial-gradient(60% 100% at 50% 100%, rgba(155, 107, 255, .35), transparent 70%); }
-.bosses img { position: relative; height: 82%; width: auto; max-width: 34%; object-fit: contain; object-position: bottom; margin: 0 -3%; filter: drop-shadow(0 10px 20px rgba(0, 0, 0, .8)); }
-.bosses img.big { max-width: 40%; }
-.bosses img.big { height: 100%; z-index: 2; }
+.bosses { display: flex; justify-content: center; align-items: center; container-type: inline-size; position: relative; padding: 18px 0 34px; }
+.bosses::before { content: ''; position: absolute; left: 6%; right: 6%; bottom: 0; height: 50%; background: radial-gradient(60% 100% at 50% 100%, rgba(200, 40, 40, .28), transparent 70%); }
+.bosses img { position: relative; width: min(26cqi, 190px); height: auto; aspect-ratio: 5 / 7; margin: 0 -4cqi; border-radius: 10px; border: 2px solid #c9a24d; box-shadow: 0 12px 28px rgba(0, 0, 0, .75), 0 0 0 1px rgba(0, 0, 0, .6); transform: rotate(calc(var(--i) * 6deg)) translateY(calc(var(--a) * 14px)); }
+.bosses img[style*="--i: 0;"] { transform: scale(1.12); border-color: #e0bd63; box-shadow: 0 14px 34px rgba(0, 0, 0, .8), 0 0 26px rgba(200, 40, 40, .45); }
 /* jeux */
 .games { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr)); gap: 14px; margin-top: 22px; }
 .game { overflow: hidden; padding: 0; }
@@ -184,7 +182,7 @@ open(f'{OUT}/site.css', 'w').write(STYLE.strip() + '\n')
 n = len(CREA)
 fan = ''.join(f'<img src="img/cartes/{cid}.webp" alt="{nm} ({fl})" width="360" height="504" loading="lazy" style="--i: {i - (n - 1) // 2}; z-index: {10 - abs(i - 3)}">' for i, (f, fl, cid, nm) in enumerate(CREA))
 realms = ''.join(f'<figure><img src="img/royaumes/{f}.webp" alt="" width="96" height="96" loading="lazy"><figcaption>{fl}</figcaption></figure>' for f, fl, _, _ in CREA)
-bosses = ''.join(f'<img src="img/gardiens/{k}.webp" alt="{nm}, {fl}" loading="lazy"{" class=\"big\"" if k == "abysse" else ""}>' for k, nm, fl in [BOSSES[0], BOSSES[1], BOSSES[3], BOSSES[2]])
+bosses = ''.join(f'<img src="img/gardiens/{k}.webp" alt="{nm}, {fl}" width="360" height="504" loading="lazy" style="--i: {i - 2}; --a: {abs(i - 2)}; z-index: {10 - abs(i - 2)}">' for i, (k, nm, fl) in enumerate(BOSSES))
 games = ''.join(f'<article class="card game"><img src="img/jeux/{k}.webp" alt="" width="900" height="297" loading="lazy"><div><h3>{t}</h3><p>{d}</p></div></article>' for k, t, d in GAMES)
 shots = ''.join(f'<figure><img src="img/shots/{k}.webp" alt="{c}" width="{shot_w}" height="{shot_h}" ><figcaption>{c}</figcaption></figure>' for k, c in SHOTS)
 home = f"""<section class="hero"><img class="hero-bg" src="img/hero.webp" alt="" width="1024" height="572">
