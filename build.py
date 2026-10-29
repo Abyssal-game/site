@@ -3,6 +3,8 @@ import os, re, shutil, sys
 from PIL import Image
 G = '/home/user/Abyssal'
 OUT = sys.argv[1]
+# L'Échoppe ouvre avec la version 1.2 : passer à True ce jour-là (ou lancer avec --echoppe), puis regénérer le site
+SHOP_OPEN = '--echoppe' in sys.argv
 shutil.rmtree(OUT, ignore_errors=True)
 os.makedirs(f'{OUT}/img/shots'); os.makedirs(f'{OUT}/fonts')
 # polices (licences OFL jointes)
@@ -185,6 +187,7 @@ realms = ''.join(f'<figure><img src="img/royaumes/{f}.webp" alt="" width="96" he
 bosses = ''.join(f'<img src="img/gardiens/{k}.webp" alt="{nm}, {fl}" width="360" height="504" loading="lazy" style="--i: {i - 2}; --a: {abs(i - 2)}; z-index: {10 - abs(i - 2)}">' for i, (k, nm, fl) in enumerate(BOSSES))
 games = ''.join(f'<article class="card game"><img src="img/jeux/{k}.webp" alt="" width="900" height="297" loading="lazy"><div><h3>{t}</h3><p>{d}</p></div></article>' for k, t, d in GAMES)
 shots = ''.join(f'<figure><img src="img/shots/{k}.webp" alt="{c}" width="{shot_w}" height="{shot_h}" ><figcaption>{c}</figcaption></figure>' for k, c in SHOTS)
+shop_kick, shop_lead = ('Ouverte', 'Pour soutenir le jeu, une boutique') if SHOP_OPEN else ('Bientôt', 'Pour soutenir le jeu, une boutique')
 home = f"""<section class="hero"><img class="hero-bg" src="img/hero.webp" alt="" width="1024" height="572">
 <div class="wrap hero-in">
   <h1 style="position:absolute;left:-9999px">ABYSSAL — Le Bestiaire interdit</h1>
@@ -224,8 +227,8 @@ home = f"""<section class="hero"><img class="hero-bg" src="img/hero.webp" alt=""
   <div class="packs"><img src="img/standard3.webp" alt="Booster standard" loading="lazy"><img src="img/abysse2.webp" alt="Booster de l’Abysse" loading="lazy"></div>
 </div></section>
 <section class="sec"><div class="wrap split">
-  <div><p class="kick">Bientôt</p><h2>L’Échoppe et le Codex de l’Abîme</h2>
-  <p>Pour soutenir le jeu, une boutique uniquement d’apparence : cadres de profil vivants, dos de cartes animés, sachets de booster, plaques de pseudo, tapis de jeu, fonds de profil et réactions pour tes parties en ligne.</p>
+  <div><p class="kick">{shop_kick}</p><h2>L’Échoppe et le Codex de l’Abîme</h2>
+  <p>{shop_lead} uniquement d’apparence : dos de cartes vivants, sachets de booster, plaques de pseudo, fonds de profil, réactions pour tes parties en ligne et plateaux pour les quatre jeux du Cercle (Duels des Sceaux, Pacte, Cryptes, Enchères), que ton adversaire voit pendant les parties en ligne. Les cadres de profil, eux, se gagnent en jouant.</p>
   <ul class="ticks"><li>Le Codex de l’Abîme : une saison par mois, 30 paliers, une voie gratuite et une voie enluminée aux cosmétiques exclusifs</li><li>Saison I, La Nuit des Âmes, à partir du 1er décembre 2026</li><li>Jamais de cartes, de monnaie de jeu ni de puissance à acheter</li></ul></div>
   <img class="banner" src="img/jeux/echoppe.webp" alt="" width="900" height="297" loading="lazy">
 </div></section>
@@ -250,13 +253,14 @@ FAQ = [
   ('J’ai changé de téléphone', 'Installe le jeu et connecte-toi avec ton compte : ta partie revient telle que tu l’as laissée.'),
   ('Ajouter un ami', '<b>Sanctuaire → Amis</b>, puis tape son pseudo. Tu peux aussi toucher le pseudo d’un joueur (classement, partie en ligne) pour ouvrir son profil et l’ajouter. Une fois la demande acceptée, vous voyez mutuellement vos collections complètes.'),
   ('Comment jouer contre d’autres joueurs ?', '<b>Aventure → Jeux</b>, choisis un jeu puis « Contre un joueur ». Partie rapide : 30 secondes par coup. Partie lente : 12 heures par coup. Si le temps est dépassé, la partie est perdue. Les Cryptes se jouent seulement entre amis.'),
-  ('Le Choc des Boosters, c’est quoi ?', 'Un défi entre deux joueurs : chacun achète les mêmes boosters au prix de la boutique, ils s’ouvrent face à face, et <b>chacun garde toujours ses cartes</b>. Le meilleur tirage reçoit un butin offert par le jeu : la copie d’une carte de son choix parmi celles de l’adversaire, et des éclats. Le perdant ne perd rien.'),
+  ('Le Choc des Boosters, c’est quoi ?', 'Un duel d’ouvertures entre deux joueurs, avec <b>un jeton offert chaque jour</b> (il ne s’achète jamais). Chacun ouvre en même temps trois boosters offerts par le jeu ; le meilleur total remporte les cartes ouvertes pendant la partie. On ne perd jamais une carte de sa collection ni un éclat.'),
   ('Les Torches, c’est quoi ?', 'Chaque combat de la Descente brûle une Torche, qu’il soit gagné ou perdu. Tu en as <b>5 par jour</b> : elles se rallument à minuit. Sans Torche, ton équipe se repose et ton chapitre t’attend jusqu’au lendemain. Les Épreuves du jour, le Cercle de l’Abysse, les boosters et la Fournaise ne demandent pas de Torche.'),
   ('Signaler ou masquer un joueur', 'Touche son pseudo pour ouvrir son profil, puis « Signaler ou masquer ce joueur ». Un pseudo signalé par plusieurs joueurs est masqué pour tout le monde.'),
   ('Recevoir les rappels sur mon téléphone', 'Dans l’application, <b>Réglages → Jeu → Notifications</b> : booster gratuit du jour, offrande du soir, Tirage des Ombres, « à toi de jouer » dans une partie lente, défis et demandes d’ami.'),
   ('Dans quelles langues peut-on jouer ?', 'En six langues : français, English, español, Deutsch, italiano et português. <b>Réglages → Jeu → Langue</b>.'),
   ('Supprimer mon compte', '<b>Sanctuaire → Compte → Supprimer mon compte</b> : ton profil, ta sauvegarde en ligne et tes scores sont effacés. Tu n’as plus l’application ? Écris-nous depuis l’adresse e-mail de ton compte, objet « Suppression de compte ».'),
-  ('Y a-t-il des achats dans le jeu ?', 'Le jeu est gratuit et sans publicité, et toutes les cartes se gagnent en jouant. Bientôt, l’Échoppe proposera des objets <b>uniquement d’apparence</b> (cadres de profil, dos de cartes, sachets, plaques, tapis, fonds de profil, réactions), achetés avec des obsidiennes, ainsi que le Codex enluminé et le Pack du Fondateur : jamais rien qui rende plus fort. Les paiements passent par l’App Store ou Google Play.'),
+  ('Y a-t-il des achats dans le jeu ?', 'Le jeu est gratuit et sans publicité, et toutes les cartes se gagnent en jouant. ' + ('L’Échoppe (<b>Butin → Codex → L’Échoppe</b>) propose' if SHOP_OPEN else 'Bientôt, l’Échoppe proposera') + ' des objets <b>uniquement d’apparence</b> (dos de cartes, sachets, plaques, fonds de profil, réactions, plateaux des jeux du Cercle), achetés avec des obsidiennes, ainsi que le Codex enluminé et le Pack du Fondateur : jamais rien qui rende plus fort. Les paiements passent par l’App Store ou Google Play.'),
+  ('Je reviens après quelques jours d’absence', 'Bon retour ! Après trois jours sans jouer, un booster t’attend à ton retour (un booster premium après une semaine). Ton booster gratuit du jour se garde aussi jusqu’à deux, et ta série d’offrandes ne repart pas de zéro : elle recule seulement d’un jour par jour manqué.'),
   ('Qu’est-ce que le Codex de l’Abîme ?', 'Le pass de saison du jeu : une saison par mois, 30 paliers à franchir en jouant. La voie gratuite donne des éclats, des cendres, des coffres et des boosters ; la voie enluminée, achetée une fois par saison, donne à chaque palier un objet d’apparence exclusif. Première saison : La Nuit des Âmes, à partir du 1er décembre 2026.'),
   ('J’ai changé de téléphone : retrouver mes achats', 'Tes achats sont liés à ton compte ABYSSAL : connecte-toi et ils reviennent. Dans l’Échoppe, « Restaurer mes achats » vérifie à nouveau tes paiements auprès de l’App Store ou de Google Play.'),
   ('Le jeu n’a pas de son', 'Vérifie le volume dans <b>Réglages → Jeu</b>. Dans l’application, le son fonctionne même quand le téléphone est en mode silencieux.'),
