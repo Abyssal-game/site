@@ -281,9 +281,9 @@ open(f'{OUT}/confidentialite.html', 'w').write(page('confidentialite.html', 'Con
 # ——— Mentions légales ———
 ml = '''<h1>Mentions légales</h1>
 <h2>Éditeur</h2>
-<p class="card">ABYSSAL — Le Bestiaire interdit<br>Site et jeu édités par une entreprise individuelle (immatriculation en cours).<br>Contact : <a href="mailto:contact@abyssal-game.fr">contact@abyssal-game.fr</a></p>
+<p class="card">ABYSSAL — Le Bestiaire interdit, site et jeu édités par <b>Alexis Seguin</b>, entrepreneur individuel (micro-entreprise), nom commercial ABYSSAL.<br>Siège : Clermont-Ferrand (63), France.<br>Immatriculé au Registre national des entreprises (RNE) : SIREN 132 021 338 — SIRET 132 021 338 00018.<br>TVA non applicable, article 293 B du Code général des impôts.<br>Directeur de la publication : Alexis Seguin.<br>Contact : <a href="mailto:contact@abyssal-game.fr">contact@abyssal-game.fr</a></p>
 <h2>Hébergement</h2>
-<p class="card">Site : GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.<br>Comptes et sauvegardes du jeu : Supabase, Inc., hébergement en Union européenne.<br>Nom de domaine : OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.</p>
+<p class="card">Site : GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis (+1 877 448 4820).<br>Comptes et sauvegardes du jeu : Supabase, Inc., hébergement en Union européenne.<br>Nom de domaine : OVH SAS, 2 rue Kellermann, 59100 Roubaix, France (+33 9 72 10 10 07).</p>
 <h2>Propriété</h2>
 <p>Les textes, illustrations, musiques et sons d’ABYSSAL sont la propriété de leur éditeur. Les polices Cinzel et Alegreya Sans sont distribuées sous licence SIL Open Font License 1.1.</p>
 <h2>Données personnelles</h2>
