@@ -5,6 +5,8 @@ G = '/home/user/Abyssal'
 OUT = sys.argv[1]
 # L'Échoppe ouvre avec la version 1.2 : passer à True ce jour-là (ou lancer avec --echoppe), puis regénérer le site
 SHOP_OPEN = '--echoppe' in sys.argv
+# 31 octobre 2026 : la version 1.2 est publiée sur l'App Store
+APP_STORE = 'https://apps.apple.com/app/abyssal-bestiaire-interdit/id6825848050'
 shutil.rmtree(OUT, ignore_errors=True)
 os.makedirs(f'{OUT}/img/shots'); os.makedirs(f'{OUT}/fonts')
 # polices (licences OFL jointes)
@@ -85,6 +87,9 @@ h3 { font-size: 1.08rem; margin: 0 0 6px; }
 .store { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 180px; padding: 11px 20px; border-radius: 14px; border: 1px solid rgba(229, 188, 98, .55); background: linear-gradient(180deg, rgba(58, 42, 18, .92), rgba(28, 20, 9, .92)); color: var(--ink); text-decoration: none; box-shadow: 0 8px 24px rgba(0, 0, 0, .5); }
 .store small { font-size: .74rem; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
 .store b { font: 700 1.08rem/1.1 'Cinzel', Georgia, serif; color: var(--gold2); letter-spacing: .04em; }
+.store.live { border-color: var(--gold2); box-shadow: 0 0 0 1px rgba(229, 188, 98, .35), 0 10px 28px rgba(229, 188, 98, .18), 0 8px 24px rgba(0, 0, 0, .5); }
+.store.live:hover, .store.live:focus-visible { filter: brightness(1.12); }
+.store:not(.live) { opacity: .7; }
 .promise { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 0; padding: 0; list-style: none; }
 .promise li { border: 1px solid var(--line); background: rgba(19, 17, 26, .7); border-radius: 999px; padding: 6px 14px; font-size: .95rem; }
 /* sections */
@@ -156,6 +161,7 @@ def page(fname, title, desc, body, text=True):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-itunes-app" content="app-id=6825848050">
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <meta name="theme-color" content="#08070C">
@@ -193,7 +199,7 @@ home = f"""<section class="hero"><img class="hero-bg" src="img/hero.webp" alt=""
   <h1 style="position:absolute;left:-9999px">ABYSSAL — Le Bestiaire interdit</h1>
   <img class="logo" src="img/titre.webp" alt="ABYSSAL — Le Bestiaire interdit">
   <p class="lead">Un jeu de cartes à collectionner dark fantasy. Ouvre des boosters, rassemble plus de 500 créatures tirées des mythes et descends dans l’Abysse, étage après étage.</p>
-  <div class="cta"><span class="store"><small>Bientôt sur</small><b>iPhone</b></span><span class="store"><small>Bientôt sur</small><b>Android</b></span></div>
+  <div class="cta"><a class="store live" href="{APP_STORE}" rel="noopener"><small>Disponible sur</small><b>l’App Store</b></a><span class="store"><small>Bientôt sur</small><b>Android</b></span></div>
   <ul class="promise"><li>Gratuit</li><li>Sans publicité</li><li>Toutes les cartes se gagnent en jouant</li></ul>
 </div></section>
 <main>

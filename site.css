@@ -32,6 +32,9 @@ h3 { font-size: 1.08rem; margin: 0 0 6px; }
 .store { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 180px; padding: 11px 20px; border-radius: 14px; border: 1px solid rgba(229, 188, 98, .55); background: linear-gradient(180deg, rgba(58, 42, 18, .92), rgba(28, 20, 9, .92)); color: var(--ink); text-decoration: none; box-shadow: 0 8px 24px rgba(0, 0, 0, .5); }
 .store small { font-size: .74rem; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
 .store b { font: 700 1.08rem/1.1 'Cinzel', Georgia, serif; color: var(--gold2); letter-spacing: .04em; }
+.store.live { border-color: var(--gold2); box-shadow: 0 0 0 1px rgba(229, 188, 98, .35), 0 10px 28px rgba(229, 188, 98, .18), 0 8px 24px rgba(0, 0, 0, .5); }
+.store.live:hover, .store.live:focus-visible { filter: brightness(1.12); }
+.store:not(.live) { opacity: .7; }
 .promise { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 0; padding: 0; list-style: none; }
 .promise li { border: 1px solid var(--line); background: rgba(19, 17, 26, .7); border-radius: 999px; padding: 6px 14px; font-size: .95rem; }
 /* sections */
